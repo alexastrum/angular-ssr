@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -11,6 +12,24 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+/**
+ * API endpoint to serve configuration
+ */
+app.get('/api/config', (req, res) => {
+  const contactEmail = process.env['CONTACT_EMAIL'];
+
+  if (!contactEmail) {
+    return res.status(400).json({
+      error: 'CONTACT_EMAIL is empty or undefined',
+    });
+  }
+
+  return res.json({
+    siteTitle: process.env['SITE_TITLE'] || 'dev',
+    contactEmail,
+  });
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -32,7 +51,7 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
-  }),
+  })
 );
 
 /**
@@ -42,7 +61,7 @@ app.use((req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
+      response ? writeResponseToNodeResponse(response, res) : next()
     )
     .catch(next);
 });

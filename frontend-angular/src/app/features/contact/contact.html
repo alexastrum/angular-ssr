@@ -1,10 +1,17 @@
 <div>
-    <p>contact works!</p>
-    <ul>
-      <li><a routerLink="/contact/mailing">Mailing</a></li>
-      <li><a routerLink="/contact/mapping">Mapping</a></li>
-      <li><a routerLink="/contact/website">Website</a></li>
-    </ul>
-    <h4>Child Routes Result</h4>
-    <router-outlet></router-outlet>
+  <div *ngIf="error" style="color: red; margin: 10px 0">
+    <strong>Error:</strong> {{ error }}
   </div>
+
+  <div *ngIf="contactEmail" style="margin: 10px 0">
+    <strong>Contact Email:</strong> {{ contactEmail }}
+  </div>
+
+  <ul>
+    <li><a routerLink="/contact/mailing">Mailing</a></li>
+    <li><a routerLink="/contact/mapping">Mapping</a></li>
+    <li><a routerLink="/contact/website">Website</a></li>
+  </ul>
+  <h4>Child Routes Result</h4>
+  <router-outlet></router-outlet>
+</div>
