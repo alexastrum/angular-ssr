@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { ConfigService } from './services/config.service';
 
 @Component({
@@ -15,20 +16,25 @@ export class App implements OnInit {
   footerUrl = 'https://www.ganatan.com';
   footerLink = 'www.ganatan.com';
 
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
 
   ngOnInit(): void {
     this.configService.getConfig().subscribe((config) => {
       this.siteTitle = config.siteTitle;
     });
 
-    const navMain = document.getElementById('navbarCollapse');
-    if (navMain) {
-      navMain.onclick = function onClick() {
-        if (navMain) {
-          navMain.classList.remove('show');
-        }
-      };
+    if (isPlatformBrowser(this.platformId)) {
+      const navMain = document.getElementById('navbarCollapse');
+      if (navMain) {
+        navMain.onclick = function onClick() {
+          if (navMain) {
+            navMain.classList.remove('show');
+          }
+        };
+      }
     }
   }
 }

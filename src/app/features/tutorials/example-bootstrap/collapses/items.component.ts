@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 // eslint-disable-next-line
 declare const bootstrap: any;
@@ -6,29 +7,35 @@ declare const bootstrap: any;
 @Component({
   selector: 'app-collapse',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css']
+  styleUrls: ['./items.component.css'],
 })
 export class ItemsComponent {
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   closeCollapse() {
-    const myCollapse = document.getElementById('collapseWidthJavascript')
-    new bootstrap.Collapse(myCollapse, {
-      hide: true,
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      const myCollapse = document.getElementById('collapseWidthJavascript');
+      new bootstrap.Collapse(myCollapse, {
+        hide: true,
+      });
+    }
   }
 
   showCollapse() {
-    const myCollapse = document.getElementById('collapseWidthJavascript')
-    new bootstrap.Collapse(myCollapse, {
-      show: true,
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      const myCollapse = document.getElementById('collapseWidthJavascript');
+      new bootstrap.Collapse(myCollapse, {
+        show: true,
+      });
+    }
   }
 
   toggleCollapse() {
-    const myCollapse = document.getElementById('collapseWidthJavascript')
-    new bootstrap.Collapse(myCollapse, {
-      toggle: true,
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      const myCollapse = document.getElementById('collapseWidthJavascript');
+      new bootstrap.Collapse(myCollapse, {
+        toggle: true,
+      });
+    }
   }
-
 }
